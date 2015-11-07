@@ -49,6 +49,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.UUID;
+import java.util.concurrent.BlockingQueue;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -96,15 +97,22 @@ public class BluetoothService {
     public static final int STATE_CONNECTING = 2; // now initiating an outgoing connection
     public static final int STATE_CONNECTED = 3;  // now connected to a remote device
 
+
+    // Inter-thread communication Queues
+    private BlockingQueue<String> inQueue;
+    private BlockingQueue<String> outQueue;
+
     /**
      * Constructor. Prepares a new PIC32_BTSK session.
      * @param context  The UI Activity Context
      * @param handler  A Handler to send messages back to the UI Activity
      */
-    public BluetoothService(Context context, Handler handler) {
+    public BluetoothService(Context context, Handler handler, BlockingQueue<String> inQueue, BlockingQueue<String> outQueue) {
         mAdapter = BluetoothAdapter.getDefaultAdapter();
         mState = STATE_NONE;
         mHandler = handler;
+        this.inQueue = inQueue;
+        this.outQueue = outQueue;
     }
 
     /**
@@ -488,12 +496,27 @@ public class BluetoothService {
             // Keep listening to the InputStream while connected
             while (true) {
                 try {
-                    // Read from the InputStream
-                    bytes = mmInStream.read(buffer);
 
-                    // Send the obtained bytes to the UI Activity
-                    mHandler.obtainMessage(PIC32_BTSK.MESSAGE_READ, bytes, -1, buffer)
-                            .sendToTarget();
+                    // ------------------ Read from the InputStream ---------------------------
+                    if (mmInStream.available() > 0) {
+                        bytes = mmInStream.read(buffer);
+                        //send to other thread by queue
+                        if (D)
+                            Log.d("SOCKET", "[BT]ReadFromBT: " + new String(buffer, 0, bytes + 1));
+                        outQueue.offer(new String(buffer, 0, bytes));
+                        // Send the obtained bytes to the UI Activity
+                        mHandler.obtainMessage(PIC32_BTSK.MESSAGE_READ, bytes, -1, buffer)
+                                .sendToTarget();
+                    }
+                    // ------------------------------------------------------------------------
+
+                    // --------------- Write the data which is from socket thread -------------
+                    if (!inQueue.isEmpty()) {
+                        String msg = inQueue.poll();
+                        if(PIC32_BTSK.D) Log.d("SOCKET", "[BT]SendtoDevice: " + msg );
+                        write(msg.getBytes());
+                    }
+                    // ------------------------------------------------------------------------
                 } catch (IOException e) {
                     Log.e(TAG, "disconnected", e);
                     connectionLost();

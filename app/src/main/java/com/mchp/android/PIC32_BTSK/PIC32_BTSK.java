@@ -189,9 +189,9 @@ TextFragment.OnTextLogRequestListener
 
     //Socket Thread
     private socketClientThread mSocketClientThread = null;
-    private BlockingQueue<String> dataQueue;
 
-    private sendMsgThroughBTthread mSendMsgThroughBTthread = null;
+    //Queues for inter-threads communication
+    private BlockingQueue<String> BTtoSocketThreadQueue;
     private BlockingQueue<String> socketThreadToBtQueue;
         
     // Callback functions. The fragments can call these functions.
@@ -324,8 +324,8 @@ TextFragment.OnTextLogRequestListener
         // Setup toasts
         mToast = Toast.makeText(this, "", Toast.LENGTH_SHORT);
 
-        dataQueue = new ArrayBlockingQueue<String>(5);
-        socketThreadToBtQueue = new ArrayBlockingQueue<String>(5);
+        BTtoSocketThreadQueue = new ArrayBlockingQueue<String>(500);
+        socketThreadToBtQueue = new ArrayBlockingQueue<String>(500);
     }
     
     // Called when the app becomes visible to the user. Checks if Bluetooth is enabled and initializes the Bluetooth service.
@@ -405,10 +405,9 @@ TextFragment.OnTextLogRequestListener
         super.onDestroy();
         // Stop the Bluetooth service
         if (mBluetoothService != null) mBluetoothService.stop();
-        if (mSocketClientThread != null) mSocketClientThread.cancel();
-        if (mSendMsgThroughBTthread != null) {
-            mSendMsgThroughBTthread.cancel();
-            mSendMsgThroughBTthread = null;
+        if (mSocketClientThread != null) {
+            mSocketClientThread.cancel();
+            mSocketClientThread = null;
         }
         if(D) Log.e(TAG, "--- ON DESTROY ---");
     }
@@ -419,7 +418,7 @@ TextFragment.OnTextLogRequestListener
         mConversationArrayAdapter = new ArrayAdapter<String>(this, R.layout.message);
         
         // Initialize the BluetoothService to perform bluetooth connections
-        mBluetoothService = new BluetoothService(this, mHandler);
+        mBluetoothService = new BluetoothService(this, mHandler, socketThreadToBtQueue, BTtoSocketThreadQueue);
     }
 
     // Puts this device into broadcast mode so it is discoverable by other Bluetooth devices
@@ -432,31 +431,6 @@ TextFragment.OnTextLogRequestListener
 //            startActivity(discoverableIntent);
 //        }
 //    }
-
-    private class sendMsgThroughBTthread extends Thread {
-
-        private boolean working = true;
-
-        @Override
-        public void run() {
-            while(working) {
-                try {
-                    if (!socketThreadToBtQueue.isEmpty()) {
-                        String msg = socketThreadToBtQueue.poll();
-                        if(PIC32_BTSK.D) Log.d("SOCKET", "SendtoDevice: " + msg );
-                        sendMessage(msg);
-                    }
-                    Thread.sleep(10);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-
-        public void cancel() {
-            working = false;
-        }
-    }
 
     // Sends a message over Bluetooth.
     // @param message  A string of text to send.
@@ -544,9 +518,6 @@ TextFragment.OnTextLogRequestListener
                 byte[] readBuf = (byte[]) msg.obj;
                 // construct a string from the valid bytes in the buffer
                 String readMessage = new String(readBuf, 0, msg.arg1);
-                //pass read massage to the socket thread
-                if(D) Log.d("SOCKET", "ReadFromBT: " + readMessage );
-                dataQueue.offer(readMessage);
                 try {
                     mConversationArrayAdapter.add("RX:  " + readMessage);
                 } catch (NullPointerException e) {}
@@ -630,11 +601,14 @@ TextFragment.OnTextLogRequestListener
             mSocketClientThread.cancel();
             mSocketClientThread = null;
         }
-        mSocketClientThread = new socketClientThread(data.getExtras().getString(socketActivity.EXTRA_USER_ID), dataQueue, mHandler, socketThreadToBtQueue);
+        mSocketClientThread = new socketClientThread(
+                data.getExtras().getString(socketActivity.EXTRA_USER_ID),
+                BTtoSocketThreadQueue, mHandler, socketThreadToBtQueue);
+
         mSocketClientThread.start();
 
-        mSendMsgThroughBTthread = new sendMsgThroughBTthread();
-        mSendMsgThroughBTthread.start();
+//        mSendMsgThroughBTthread = new sendMsgThroughBTthread();
+//        mSendMsgThroughBTthread.start();
     }
     
     // Called when the user opens the Options menu
