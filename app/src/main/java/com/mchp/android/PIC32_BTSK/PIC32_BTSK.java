@@ -324,8 +324,8 @@ TextFragment.OnTextLogRequestListener
         // Setup toasts
         mToast = Toast.makeText(this, "", Toast.LENGTH_SHORT);
 
-        BTtoSocketThreadQueue = new ArrayBlockingQueue<String>(500);
-        socketThreadToBtQueue = new ArrayBlockingQueue<String>(500);
+        BTtoSocketThreadQueue = new ArrayBlockingQueue<String>(5);
+        socketThreadToBtQueue = new ArrayBlockingQueue<String>(5);
     }
     
     // Called when the app becomes visible to the user. Checks if Bluetooth is enabled and initializes the Bluetooth service.

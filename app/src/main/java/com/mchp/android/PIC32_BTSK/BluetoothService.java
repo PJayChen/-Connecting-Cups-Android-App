@@ -490,8 +490,9 @@ public class BluetoothService {
 
         public void run() {
             Log.i(TAG, "BEGIN mConnectedThread");
-            byte[] buffer = new byte[1024];
-            int bytes;
+            byte[] buffer = new byte[618];
+            int[] intBuf = new int[200];
+            int bytes = 0;
 
             // Keep listening to the InputStream while connected
             while (true) {
@@ -500,10 +501,10 @@ public class BluetoothService {
                     // ------------------ Read from the InputStream ---------------------------
                     if (mmInStream.available() > 0) {
                         bytes = mmInStream.read(buffer);
+                        if (D) Log.d("SOCKET", "[BT]ReadFromBT: " + "Receive " + bytes + " bytes");
+                        if (D) Log.d("SOCKET", "[BT]ReadFromBT: " + new String(buffer, 0, bytes - 2));
                         //send to other thread by queue
-                        if (D)
-                            Log.d("SOCKET", "[BT]ReadFromBT: " + new String(buffer, 0, bytes + 1));
-                        outQueue.offer(new String(buffer, 0, bytes));
+                        outQueue.offer(new String(buffer, 0, bytes - 2));
                         // Send the obtained bytes to the UI Activity
                         mHandler.obtainMessage(PIC32_BTSK.MESSAGE_READ, bytes, -1, buffer)
                                 .sendToTarget();
@@ -517,12 +518,16 @@ public class BluetoothService {
                         write(msg.getBytes());
                     }
                     // ------------------------------------------------------------------------
+
+                sleep(500);
                 } catch (IOException e) {
                     Log.e(TAG, "disconnected", e);
                     connectionLost();
                     // Start the service over to restart listening mode
                     BluetoothService.this.start();
                     break;
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
             }
         }

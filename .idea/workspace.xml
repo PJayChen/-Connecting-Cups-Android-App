@@ -6,14 +6,13 @@
     </shared>
   </component>
   <component name="AndroidLogFilters">
-    <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
+    <option name="TOOL_WINDOW_CUSTOM_FILTER" value="SOCKET" />
+    <option name="TOOL_WINDOW_LOG_LEVEL" value="DEBUG" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="20d3c07a-6d9d-463b-bf02-a62b015b5b86" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/mchp/android/PIC32_BTSK/BluetoothService.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/mchp/android/PIC32_BTSK/BluetoothService.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/mchp/android/PIC32_BTSK/PIC32_BTSK.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/mchp/android/PIC32_BTSK/PIC32_BTSK.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/action_bar.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/action_bar.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gradlew.bat" afterPath="$PROJECT_DIR$/gradlew.bat" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="BTSK_Android_App.iws" />
@@ -38,10 +37,10 @@
       <file leaf-file-name="PIC32_BTSK.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/mchp/android/PIC32_BTSK/PIC32_BTSK.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-8.806452">
-              <caret line="329" column="4" selection-start-line="329" selection-start-column="4" selection-end-line="329" selection-end-column="4" />
+            <state vertical-scroll-proportion="0.032258064">
+              <caret line="324" column="62" selection-start-line="324" selection-start-column="62" selection-end-line="324" selection-end-column="62" />
               <folding>
-                <element signature="e#0#26847#0" expanded="true" />
+                <element signature="e#0#26843#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -50,9 +49,11 @@
       <file leaf-file-name="BluetoothService.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/mchp/android/PIC32_BTSK/BluetoothService.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.3474843">
-              <caret line="528" column="0" selection-start-line="528" selection-start-column="0" selection-end-line="528" selection-end-column="0" />
-              <folding />
+            <state vertical-scroll-proportion="-0.17910448">
+              <caret line="512" column="0" selection-start-line="512" selection-start-column="0" selection-end-line="512" selection-end-column="0" />
+              <folding>
+                <marker date="1447915921217" expanded="true" signature="18773:18829" placeholder="//..." />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -60,12 +61,10 @@
       <file leaf-file-name="socketClientThread.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/mchp/android/PIC32_BTSK/socketClientThread.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-13.580646">
-              <caret line="107" column="44" selection-start-line="107" selection-start-column="44" selection-end-line="107" selection-end-column="44" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="39" column="11" selection-start-line="39" selection-start-column="11" selection-end-line="39" selection-end-column="11" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#1726#1727#0" expanded="true" />
-                <element signature="e#1771#1772#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -875,8 +874,8 @@
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_socket.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/mchp/android/PIC32_BTSK/socketActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/mchp/android/PIC32_BTSK/socketClientThread.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/mchp/android/PIC32_BTSK/PIC32_BTSK.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/mchp/android/PIC32_BTSK/BluetoothService.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/mchp/android/PIC32_BTSK/PIC32_BTSK.java" />
       </list>
     </option>
   </component>
@@ -884,9 +883,10 @@
     <order />
   </component>
   <component name="ProjectFrameBounds">
+    <option name="x" value="1920" />
     <option name="y" value="24" />
-    <option name="width" value="1920" />
-    <option name="height" value="1056" />
+    <option name="width" value="1280" />
+    <option name="height" value="1000" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -930,7 +930,7 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="ProjectPane" />
+      <pane id="PackagesPane" />
       <pane id="Scratches" />
       <pane id="AndroidView">
         <subPane>
@@ -970,8 +970,8 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="ProjectPane" />
       <pane id="Scope" />
-      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -1208,13 +1208,12 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="24" width="1920" height="1056" extended-state="6" />
+    <frame x="1920" y="24" width="1280" height="1000" extended-state="6" />
     <editor active="false" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
@@ -1223,19 +1222,20 @@
       <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.43086818" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25294748" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.39566705" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3290461" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.16755603" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.11750405" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3279743" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2497332" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2497332" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2588047" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
@@ -1281,8 +1281,6 @@
           <caret line="110" column="70" selection-start-line="110" selection-start-column="62" selection-end-line="110" selection-end-column="70" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#1726#1727#0" expanded="true" />
-            <element signature="e#1771#1772#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1300,7 +1298,7 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="458" column="5" selection-start-line="458" selection-start-column="5" selection-end-line="458" selection-end-column="5" />
           <folding>
-            <element signature="e#0#26847#0" expanded="true" />
+            <element signature="e#0#26843#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1309,9 +1307,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="87" column="44" selection-start-line="87" selection-start-column="44" selection-end-line="87" selection-end-column="44" />
-          <folding>
-            <element signature="method#hideKeyboard#0;class#TextFragment#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1319,7 +1314,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="516" column="40" selection-start-line="516" selection-start-column="40" selection-end-line="516" selection-end-column="40" />
-          <folding />
+          <folding>
+            <marker date="1447915921217" expanded="true" signature="18773:18829" placeholder="//..." />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1329,8 +1326,6 @@
           <caret line="106" column="25" selection-start-line="106" selection-start-column="25" selection-end-line="106" selection-end-column="25" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#1726#1727#0" expanded="true" />
-            <element signature="e#1771#1772#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1348,7 +1343,7 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="436" column="0" selection-start-line="436" selection-start-column="0" selection-end-line="436" selection-end-column="0" />
           <folding>
-            <element signature="e#0#26847#0" expanded="true" />
+            <element signature="e#0#26843#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1357,9 +1352,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="87" column="44" selection-start-line="87" selection-start-column="44" selection-end-line="87" selection-end-column="44" />
-          <folding>
-            <element signature="method#hideKeyboard#0;class#TextFragment#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1367,7 +1359,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="516" column="40" selection-start-line="516" selection-start-column="40" selection-end-line="516" selection-end-column="40" />
-          <folding />
+          <folding>
+            <marker date="1447915921217" expanded="true" signature="18773:18829" placeholder="//..." />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1377,8 +1371,6 @@
           <caret line="106" column="25" selection-start-line="106" selection-start-column="25" selection-end-line="106" selection-end-column="25" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#1726#1727#0" expanded="true" />
-            <element signature="e#1771#1772#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1396,7 +1388,7 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="545" column="22" selection-start-line="545" selection-start-column="22" selection-end-line="545" selection-end-column="22" />
           <folding>
-            <element signature="e#0#26847#0" expanded="true" />
+            <element signature="e#0#26843#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1407,8 +1399,6 @@
           <caret line="36" column="29" selection-start-line="36" selection-start-column="29" selection-end-line="36" selection-end-column="29" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#1726#1727#0" expanded="true" />
-            <element signature="e#1771#1772#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1425,7 +1415,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="206" column="41" selection-start-line="206" selection-start-column="41" selection-end-line="206" selection-end-column="41" />
-          <folding />
+          <folding>
+            <marker date="1447915921217" expanded="true" signature="18773:18829" placeholder="//..." />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1434,7 +1426,7 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#0#26847#0" expanded="true" />
+            <element signature="e#0#26843#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1443,9 +1435,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="147" column="25" selection-start-line="147" selection-start-column="8" selection-end-line="147" selection-end-column="25" />
-          <folding>
-            <element signature="method#hideKeyboard#0;class#TextFragment#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1480,7 +1469,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="68" column="13" selection-start-line="68" selection-start-column="13" selection-end-line="68" selection-end-column="13" />
-          <folding />
+          <folding>
+            <marker date="1447915921217" expanded="true" signature="18773:18829" placeholder="//..." />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1489,7 +1480,7 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="254" column="8" selection-start-line="254" selection-start-column="8" selection-end-line="254" selection-end-column="8" />
           <folding>
-            <element signature="e#0#26847#0" expanded="true" />
+            <element signature="e#0#26843#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1498,9 +1489,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="109" column="30" selection-start-line="108" selection-start-column="33" selection-end-line="109" selection-end-column="30" />
-          <folding>
-            <element signature="method#hideKeyboard#0;class#TextFragment#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1530,7 +1518,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="68" column="13" selection-start-line="68" selection-start-column="13" selection-end-line="68" selection-end-column="13" />
-          <folding />
+          <folding>
+            <marker date="1447915921217" expanded="true" signature="18773:18829" placeholder="//..." />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1539,7 +1529,7 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="97" column="13" selection-start-line="97" selection-start-column="13" selection-end-line="97" selection-end-column="13" />
           <folding>
-            <element signature="e#0#26847#0" expanded="true" />
+            <element signature="e#0#26843#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1548,9 +1538,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="method#hideKeyboard#0;class#TextFragment#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1651,11 +1638,11 @@
         <state vertical-scroll-proportion="-7.548387">
           <caret line="50" column="43" selection-start-line="50" selection-start-column="43" selection-end-line="50" selection-end-column="43" />
           <folding>
-            <element signature="e#2205#2223#0" expanded="true" />
-            <element signature="e#2381#2401#0" expanded="true" />
-            <element signature="e#2637#2655#0" expanded="true" />
-            <element signature="e#2964#2987#0" expanded="true" />
-            <element signature="e#3304#3327#0" expanded="true" />
+            <element signature="e#2205#2223#0" expanded="false" />
+            <element signature="e#2381#2401#0" expanded="false" />
+            <element signature="e#2637#2655#0" expanded="false" />
+            <element signature="e#2964#2987#0" expanded="false" />
+            <element signature="e#3304#3327#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1704,7 +1691,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="264" column="58" selection-start-line="264" selection-start-column="58" selection-end-line="264" selection-end-column="58" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1713,8 +1699,8 @@
         <state vertical-scroll-proportion="0.33333334">
           <caret line="504" column="25" selection-start-line="504" selection-start-column="25" selection-end-line="504" selection-end-column="25" />
           <folding>
-            <element signature="e#21094#21095#0" expanded="true" />
-            <element signature="e#21143#21144#0" expanded="true" />
+            <element signature="e#21094#21095#0" expanded="false" />
+            <element signature="e#21143#21144#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1723,9 +1709,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-2.070345">
           <caret line="87" column="44" selection-start-line="87" selection-start-column="44" selection-end-line="87" selection-end-column="44" />
-          <folding>
-            <element signature="method#hideKeyboard#0;class#TextFragment#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1737,33 +1720,33 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/mchp/android/PIC32_BTSK/PIC32_BTSK.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/mchp/android/PIC32_BTSK/socketClientThread.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-8.806452">
-          <caret line="329" column="4" selection-start-line="329" selection-start-column="4" selection-end-line="329" selection-end-column="4" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="39" column="11" selection-start-line="39" selection-start-column="11" selection-end-line="39" selection-end-column="11" />
           <folding>
-            <element signature="e#0#26847#0" expanded="true" />
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/mchp/android/PIC32_BTSK/socketClientThread.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/mchp/android/PIC32_BTSK/PIC32_BTSK.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-13.580646">
-          <caret line="107" column="44" selection-start-line="107" selection-start-column="44" selection-end-line="107" selection-end-column="44" />
+        <state vertical-scroll-proportion="0.032258064">
+          <caret line="324" column="62" selection-start-line="324" selection-start-column="62" selection-end-line="324" selection-end-column="62" />
           <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#1726#1727#0" expanded="true" />
-            <element signature="e#1771#1772#0" expanded="true" />
+            <element signature="e#0#26843#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/mchp/android/PIC32_BTSK/BluetoothService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3474843">
-          <caret line="528" column="0" selection-start-line="528" selection-start-column="0" selection-end-line="528" selection-end-column="0" />
-          <folding />
+        <state vertical-scroll-proportion="-0.17910448">
+          <caret line="512" column="0" selection-start-line="512" selection-start-column="0" selection-end-line="512" selection-end-column="0" />
+          <folding>
+            <marker date="1447915921217" expanded="true" signature="18773:18829" placeholder="//..." />
+          </folding>
         </state>
       </provider>
     </entry>
