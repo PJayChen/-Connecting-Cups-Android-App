@@ -491,8 +491,20 @@ public class BluetoothService {
         public void run() {
             Log.i(TAG, "BEGIN mConnectedThread");
             byte[] buffer = new byte[618];
-            int[] intBuf = new int[200];
             int bytes = 0;
+
+            String setSensorDataTxPeriodMsg = "252,500";
+            String startSensorDataTx = "253";
+
+            // initialize and start sensor data transmission
+            try {
+                write(setSensorDataTxPeriodMsg.getBytes());
+                sleep(500);
+                write(startSensorDataTx.getBytes());
+                sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
 
             // Keep listening to the InputStream while connected
             while (true) {
