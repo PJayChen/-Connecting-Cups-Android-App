@@ -13,7 +13,9 @@ import android.widget.TextView;
  */
 public class MotionRecognitionFragment extends Fragment {
 
+    // UI relative members
     private TextView identifyMotionText;
+    private String lastMotionStateStr;
 
     @Override
     public void onAttach(Activity activity) {
@@ -33,15 +35,17 @@ public class MotionRecognitionFragment extends Fragment {
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_motion, container, false);
 
         identifyMotionText = (TextView) rootView.findViewById(R.id.textViewMotion);
-        identifyMotionText.setText("");
+
+        if (lastMotionStateStr == null) identifyMotionText.setText("---");
+        else updateIdentifiedMotionText(lastMotionStateStr);
 
         // Return the layout for this fragment
         return rootView;
 
     }
 
-
     public void updateIdentifiedMotionText (String motionStr) {
         identifyMotionText.setText(motionStr);
+        lastMotionStateStr = new String(motionStr);
     }
 }
