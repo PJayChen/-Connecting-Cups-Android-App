@@ -69,6 +69,9 @@ public class socketClientThread extends Thread {
                 //DATA STRING is accelerometer values
                 sendMessageByBluetooth(msgArray[2] + "," + msgArray[3] + "," + msgArray[4] + ","
                         + msgArray[5] + "," + msgArray[6]);
+            } else if (msgArray[2].equals("116")) {
+                //DATA STRING is motion recognition result
+                sendMessageByBluetooth(msgArray[2] + "," + msgArray[3]);
             }
         }
     }
@@ -78,7 +81,7 @@ public class socketClientThread extends Thread {
         {
             showMsgByToast("Try to connect to server...");
 
-                    socket = new Socket( host, port );
+            socket = new Socket( host, port );
             input = new DataInputStream( socket.getInputStream() );
             output = new DataOutputStream( socket.getOutputStream() );
 
