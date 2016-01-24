@@ -51,23 +51,11 @@
 
 package com.mchp.android.PIC32_BTSK;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.StreamCorruptedException;
-import java.net.Socket;
 import java.util.LinkedList;
 import java.util.Set;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
-import android.bluetooth.BluetoothSocket;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -91,11 +79,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
-import com.mchp.android.PIC32_BTSK.R;
 
 /*
  * This is the main Activity. It handles all the underlying Bluetooth connection and communication, and also communicates with
@@ -131,7 +117,7 @@ TextFragment.OnTextLogRequestListener
     private TemperatureFragment temperatureFrag;   // View temperature log, enable temperature updates, select and send
                                                    // an update rate
     private TextFragment textFrag;                 // Enter and send text strings, view transmit/receive log
-    
+    private MotionRecognitionFragment motionRecognitionFrag;
     // Transmit/receive log
     private ArrayAdapter<String> mConversationArrayAdapter;
 
@@ -158,6 +144,8 @@ TextFragment.OnTextLogRequestListener
     public static final int MESSAGE_WRITE = 3;
     public static final int MESSAGE_DEVICE_NAME = 4;
     public static final int MESSAGE_TOAST = 5;
+    // Message types sent from the MotionRecognitionThread Handler
+    public static final int MESSAGE_MOTION_RECOG_STATE = 6;
 
     // Key names received from the BluetoothService Handler
     public static final String DEVICE_NAME = "device_name";
@@ -191,8 +179,12 @@ TextFragment.OnTextLogRequestListener
     private socketClientThread mSocketClientThread = null;
 
     //Queues for inter-threads communication
-    private BlockingQueue<String> BTtoSocketThreadQueue;
+    private BlockingQueue<String> BTtoMotionRecogThreadQueue;
     private BlockingQueue<String> socketThreadToBtQueue;
+    private BlockingQueue<String> motionRecogToSocketThreadQueue;
+
+    //Motion Recognition Thread
+    private MotionRecognitionThread mMotionRecognitionThread = null;
         
     // Callback functions. The fragments can call these functions.
     
@@ -292,8 +284,11 @@ TextFragment.OnTextLogRequestListener
         mTabHost.setup(this, mFragmentManager, R.id.tabFrameLayout);
 
         mTabHost.addTab(
-                mTabHost.newTabSpec("color").setIndicator("Color"),
-                ColorFragment.class, null);
+                mTabHost.newTabSpec("motion").setIndicator("Motion"),
+                MotionRecognitionFragment.class, null);
+//        mTabHost.addTab(
+//                mTabHost.newTabSpec("color").setIndicator("Color"),
+//                ColorFragment.class, null);
         mTabHost.addTab(
                 mTabHost.newTabSpec("temperature").setIndicator("Temperature"),
                 TemperatureFragment.class, null);
@@ -324,8 +319,13 @@ TextFragment.OnTextLogRequestListener
         // Setup toasts
         mToast = Toast.makeText(this, "", Toast.LENGTH_SHORT);
 
-        BTtoSocketThreadQueue = new ArrayBlockingQueue<String>(5);
+        BTtoMotionRecogThreadQueue = new ArrayBlockingQueue<String>(5);
         socketThreadToBtQueue = new ArrayBlockingQueue<String>(5);
+        motionRecogToSocketThreadQueue = new ArrayBlockingQueue<String>(2);
+
+        mMotionRecognitionThread = new MotionRecognitionThread(this, mHandler,
+                BTtoMotionRecogThreadQueue, motionRecogToSocketThreadQueue);
+        mMotionRecognitionThread.start();
     }
     
     // Called when the app becomes visible to the user. Checks if Bluetooth is enabled and initializes the Bluetooth service.
@@ -409,6 +409,7 @@ TextFragment.OnTextLogRequestListener
             mSocketClientThread.cancel();
             mSocketClientThread = null;
         }
+        if (mMotionRecognitionThread != null) mMotionRecognitionThread.cancel();
         if(D) Log.e(TAG, "--- ON DESTROY ---");
     }
 
@@ -418,7 +419,7 @@ TextFragment.OnTextLogRequestListener
         mConversationArrayAdapter = new ArrayAdapter<String>(this, R.layout.message);
         
         // Initialize the BluetoothService to perform bluetooth connections
-        mBluetoothService = new BluetoothService(this, mHandler, socketThreadToBtQueue, BTtoSocketThreadQueue);
+        mBluetoothService = new BluetoothService(this, mHandler, socketThreadToBtQueue, BTtoMotionRecogThreadQueue);
     }
 
     // Puts this device into broadcast mode so it is discoverable by other Bluetooth devices
@@ -526,7 +527,6 @@ TextFragment.OnTextLogRequestListener
                     TemperatureFragment.parseTemperature(readMessage, mTemperatures);
                     temperatureFrag.updateGraph(mTemperatures);
                 } catch (NullPointerException e) {}
-
                 break;
             case MESSAGE_DEVICE_NAME:
                 // save the connected device's name
@@ -546,6 +546,13 @@ TextFragment.OnTextLogRequestListener
             case MESSAGE_TOAST:
                 Toast.makeText(getApplicationContext(), msg.getData().getString(TOAST),
                                Toast.LENGTH_SHORT).show();
+                break;
+            case MESSAGE_MOTION_RECOG_STATE:
+                String motionStates = (String) msg.obj;
+                try {
+                    motionRecognitionFrag.updateIdentifiedMotionText(motionStates);
+                } catch (NullPointerException e) {}
+
                 break;
             }
         }
@@ -603,7 +610,7 @@ TextFragment.OnTextLogRequestListener
         }
         mSocketClientThread = new socketClientThread(
                 data.getExtras().getString(socketActivity.EXTRA_USER_ID),
-                BTtoSocketThreadQueue, mHandler, socketThreadToBtQueue);
+                motionRecogToSocketThreadQueue, mHandler, socketThreadToBtQueue);
 
         mSocketClientThread.start();
 
@@ -662,12 +669,12 @@ TextFragment.OnTextLogRequestListener
         super.onAttachFragment(fragment);
         if (fragment.getClass().equals(TextFragment.class)) {
             textFrag = (TextFragment)fragment;
-        }
-        else if (fragment.getClass().equals(TemperatureFragment.class)) {
+        } else if (fragment.getClass().equals(TemperatureFragment.class)) {
             temperatureFrag = (TemperatureFragment)fragment;
-        }
-        else if (fragment.getClass().equals(ColorFragment.class)) {
+        } else if (fragment.getClass().equals(ColorFragment.class)) {
             colorFrag = (ColorFragment)fragment;
+        } else if (fragment.getClass().equals(MotionRecognitionFragment.class)) {
+            motionRecognitionFrag = (MotionRecognitionFragment) fragment;
         }
     }
 
