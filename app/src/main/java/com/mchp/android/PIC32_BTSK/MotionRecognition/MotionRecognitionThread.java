@@ -1,9 +1,11 @@
-package com.mchp.android.PIC32_BTSK;
+package com.mchp.android.PIC32_BTSK.MotionRecognition;
 
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.os.Handler;
 import android.util.Log;
+
+import com.mchp.android.PIC32_BTSK.PIC32_BTSK;
 
 import server.FeatureVector;
 
@@ -40,11 +42,6 @@ public class MotionRecognitionThread extends Thread {
     private static final boolean DEBUG_IDENTIFY_MOTION = false;
     // Enable training phase
     private static final boolean TRAINING_PHASE = false;
-
-
-    // members for plot chart
-//    private List<FeatureVector> featureVectorForPlot;
-//    private List<Integer> axis_x;
 
     // Motion Recognition state labels
     private static final int MOTION_DETECTION = 1;
@@ -329,7 +326,7 @@ public class MotionRecognitionThread extends Thread {
                 30)
                 + FastDTW.getWarpDistBetween(new TimeSeries(templateInstance_y), new TimeSeries(testingInstance_y), 30)
                 + FastDTW.getWarpDistBetween(new TimeSeries(templateInstance_z), new TimeSeries(testingInstance_z), 30))/3;
-        //+ FastDTW.getWarpDistBetween(new TimeSeries(templateInstance_m), new TimeSeries(testingInstance_m), 30);
+//        double dist = FastDTW.getWarpDistBetween(new TimeSeries(templateInstance_m), new TimeSeries(testingInstance_m), 30);
 
         if (DEBUG_SIMILARITY) {
             System.out.printf("Similarity: %d\n", (int) dist);
@@ -383,33 +380,12 @@ public class MotionRecognitionThread extends Thread {
 
     @Override
     public void run() {
-        // ----- Setup chart -----
-//        final RealtimeChart realtimeChart = new RealtimeChart();
 
         while (isRunning) {
 
             try {
                 // ----- take data from the queue and parse it. -----
                 parsingRawDataStream(rawDataStreamQueue.take());
-
-                // ----- Plot data -----
-                // Increase time axis
-//                while (axis_x.size() < featureVectorForPlot.size())
-//                    axis_x.add(axis_x.get(axis_x.size() - 1) + 10);
-//                // Limit the total number of points
-//                while (axis_x.size() > 200 && featureVectorForPlot.size() > 200) {
-//                    axis_x.remove(0);
-//                    featureVectorForPlot.remove(0);
-//                }
-
-                // update chart
-//                if (axis_x.size() == featureVectorForPlot.size())
-//                    realtimeChart.updateChart(axis_x, featureVectorForPlot);
-                // ----------------------
-
-                // if (DEBUG_MOTION_DETECTION) {
-                // System.out.printf("State [%d] \n\n", state);
-                // }
 
                 // ----- processing data -----
                 switch (state) {
@@ -539,22 +515,17 @@ public class MotionRecognitionThread extends Thread {
                         for (int i = 0; i < templateFileList.length; i++) {
                             identifyMotion(templateFileList[i], similarityQueue);
                         }
-//                        File[] templateFileList = new File(new String("./templates/")).listFiles();
-//                        for (int i = 0; i < templateFileList.length; i++) {
-//                            identifyMotion(templateFileList[i].getName(), similarityQueue);
-//                        }
-
 
                         SimilarTemplate mostSimilarOne = similarityQueue.remove();
-                        SimilarTemplate similarOne = similarityQueue.remove();
+                        //SimilarTemplate similarOne = similarityQueue.remove();
 
                         String[] motionOfmostSimilarOne = mostSimilarOne.getTemplateName().split("_");
-                        String[] motionOfSimilarOne = similarOne.getTemplateName().split("_");
+                        //String[] motionOfSimilarOne = similarOne.getTemplateName().split("_");
 
                         if (DEBUG_IDENTIFY_MOTION) {
-                            System.out.println( similarOne.getTemplateName() + " " + similarOne.getSimilarity() + " - "
-                                    + mostSimilarOne.getTemplateName() + " " + mostSimilarOne.getSimilarity() + " = "
-                                    + String.valueOf(similarOne.getSimilarity() - mostSimilarOne.getSimilarity()) );
+//                            System.out.println( similarOne.getTemplateName() + " " + similarOne.getSimilarity() + " - "
+//                                    + mostSimilarOne.getTemplateName() + " " + mostSimilarOne.getSimilarity() + " = "
+//                                    + String.valueOf(similarOne.getSimilarity() - mostSimilarOne.getSimilarity()) );
 
                             System.out.println("========================");
 

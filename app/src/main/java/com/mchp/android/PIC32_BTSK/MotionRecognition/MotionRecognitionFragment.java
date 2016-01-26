@@ -1,4 +1,4 @@
-package com.mchp.android.PIC32_BTSK;
+package com.mchp.android.PIC32_BTSK.MotionRecognition;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.mchp.android.PIC32_BTSK.R;
 
 /**
  * Created by pjay on 2016/1/22.

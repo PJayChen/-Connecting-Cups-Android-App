@@ -83,6 +83,9 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
+import com.mchp.android.PIC32_BTSK.MotionRecognition.MotionRecognitionFragment;
+import com.mchp.android.PIC32_BTSK.MotionRecognition.MotionRecognitionThread;
+
 /*
  * This is the main Activity. It handles all the underlying Bluetooth connection and communication, and also communicates with
  * the Color, Temperature and Text tabs.

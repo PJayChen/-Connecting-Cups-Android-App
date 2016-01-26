@@ -1,4 +1,4 @@
-package com.mchp.android.PIC32_BTSK;
+package com.mchp.android.PIC32_BTSK.MotionRecognition;
 
 /**
  * Created by pjay on 2016/1/21.
