@@ -1,7 +1,6 @@
 package com.mchp.android.PIC32_BTSK.MotionRecognition;
 
 import android.content.Context;
-import android.content.res.AssetManager;
 import android.os.Handler;
 import android.util.Log;
 
@@ -36,9 +35,9 @@ public class MotionRecognitionThread extends Thread {
     private boolean isRunning = true;
 
     // Enable debug info
-    private static final boolean DEBUG_PARSING = false;
+    public static final boolean DEBUG_PARSING = false;
     private static final boolean DEBUG_MOTION_DETECTION = false;
-    private static final boolean DEBUG_SIMILARITY = false;
+    public static final boolean DEBUG_SIMILARITY = false;
     private static final boolean DEBUG_IDENTIFY_MOTION = false;
     // Enable training phase
     private static final boolean TRAINING_PHASE = false;
@@ -336,46 +335,14 @@ public class MotionRecognitionThread extends Thread {
         return dist;
     }
 
-    private void identifyMotion(String templateName, Queue<SimilarTemplate> similarityQueue) {
+    private void identifyMotion(String templateName, List<List<FeatureVector>> templateFramesList,
+                                Queue<SimilarTemplate> similarityQueue) {
 
-        try {
-            // Read motion template from file.
-            AssetManager assetManager = context.getAssets();
-            InputStream fis =  assetManager.open("templates/" + templateName);
-            ObjectInputStream ois;
-            ois = new ObjectInputStream(fis);
-            List<List<FeatureVector>> mList = (List<List<FeatureVector>>) ois.readObject();
-            ois.close();
-            fis.close();
-
-//            if (DEBUG_IDENTIFY_MOTION) {
-//                System.out.printf("[Read from file] ");
-//                System.out.printf("Number of frame is %d \n", mList.size());
-//                for (List<FeatureVector> fv : mList) {
-//                    for (int i = 0; i < fv.size(); i++) {
-//                        System.out.printf("[%d, %d, %d, %d], ",
-//                          fv.get(i).getAcceleration_x(), fv.get(i).getAcceleration_y(),
-//                          fv.get(i).getAcceleration_z(),
-//                          fv.get(i).getAcceleration_magnitude());
-//                    }
-//			    System.out.println("\n");
-//                }
-//            }
-
-            // compare run-time motion frames with template
-            double dist = getSimilarity(mList, motionFramesList);
-//			if (DEBUG_IDENTIFY_MOTION) {
-//				System.out.printf("Motion %s, similarity: %d\n", templateName, (int) dist);
-//			}
-
-            similarityQueue.add(new SimilarTemplate(templateName, (int) dist));
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-
+            /* Compare run-time motion frames with all templates.
+             * Split each similarity calculation into multiple threads that reduces the latency.
+             * The results are store in the similarityQueue.
+             */
+            IdentifyMotionManager.startIdentifyingMotion(templateName, templateFramesList, motionFramesList, similarityQueue);
     }
 
     @Override
@@ -512,9 +479,31 @@ public class MotionRecognitionThread extends Thread {
 //                                System.out.println(templateFileList[i]);
 //                            }
 
-                        for (int i = 0; i < templateFileList.length; i++) {
-                            identifyMotion(templateFileList[i], similarityQueue);
+                        for (String templateName : templateFileList) {
+                            // Read motion template from file.
+                            //AssetManager assetManager = context.getAssets();
+                            InputStream fis =  context.getAssets().open("templates/" + templateName);
+                            ObjectInputStream ois;
+                            ois = new ObjectInputStream(fis);
+                            List<List<FeatureVector>> templateFramesList = (List<List<FeatureVector>>) ois.readObject();
+                            ois.close();
+                            fis.close();
+
+                            // calculate the similarity between testing frames with all templates frames
+                            identifyMotion(templateName, templateFramesList, similarityQueue);
                         }
+
+                        boolean flag = true;
+                        while (similarityQueue.size() != templateFileList.length) {
+                            if (flag) {
+                                updateStates("Identifying....");
+                                flag = false;
+                            } else {
+                                updateStates("Identifying...");
+                                flag = true;
+                            }
+                            sleep(100); // waiting for calculating similarity finish.
+                        };
 
                         SimilarTemplate mostSimilarOne = similarityQueue.remove();
                         //SimilarTemplate similarOne = similarityQueue.remove();
@@ -526,7 +515,7 @@ public class MotionRecognitionThread extends Thread {
 //                            System.out.println( similarOne.getTemplateName() + " " + similarOne.getSimilarity() + " - "
 //                                    + mostSimilarOne.getTemplateName() + " " + mostSimilarOne.getSimilarity() + " = "
 //                                    + String.valueOf(similarOne.getSimilarity() - mostSimilarOne.getSimilarity()) );
-
+                            System.out.println(mostSimilarOne.getTemplateName() + " " + mostSimilarOne.getSimilarity());
                             System.out.println("========================");
 
                             while (!similarityQueue.isEmpty()) {
@@ -552,6 +541,8 @@ public class MotionRecognitionThread extends Thread {
                         }  else if (motionOfmostSimilarOne[1].equals("toasting")) {
                             identifyResultQueue.offer("116,4");
                         }
+
+                        similarityQueue = null;
 
                         state = MOTION_DETECTION;
                         break;
