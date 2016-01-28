@@ -72,10 +72,6 @@ public class MotionRecognitionThread extends Thread {
         this.rawDataStreamQueue = rawDataStreamQueue;
         this.identifyResultQueue = identifyResultQueue;
 
-//        this.featureVectorForPlot = new LinkedList<FeatureVector>();
-//        this.axis_x = new LinkedList<Integer>();
-//        this.axis_x.add(0);
-
         this.featureVectorList = new LinkedList<FeatureVector>();
     }
 

@@ -52,7 +52,15 @@ public class IdentifyMotionManager {
 
     private IdentifyMotionManager() {
 
+        /*
+         * Creates a work queue for the pool of Thread objects used for identifying, using a linked
+         * list queue that blocks when the queue is empty.
+         */
         identifyWorkQueue = new LinkedBlockingDeque<Runnable>();
+
+        /*
+         * Creates a new pool of Thread objects for the identifyMotion work queue
+         */
         identifyThreadPool = new ThreadPoolExecutor(NUMBER_OF_CORES, NUMBER_OF_CORES,
                 KEEP_ALIVE_TIME, KEEP_ALIVE_TIME_UNIT, identifyWorkQueue);
 
@@ -62,13 +70,14 @@ public class IdentifyMotionManager {
         return sInstance;
     }
 
-    public static IdentifyMotionTask startIdentifyingMotion(
+    public static void startIdentifyingMotion(
             String templateName,
             List<List<FeatureVector>> templateFeatureFrameList,
             List<List<FeatureVector>> testingFeatureFrameList,
             Queue<SimilarTemplate> similarityQueue
             ) {
 
+        // Instance and initial the task for identifying motion.
         IdentifyMotionTask identifyTask = new IdentifyMotionTask(templateName,
                 templateFeatureFrameList, testingFeatureFrameList, similarityQueue);
 
@@ -77,9 +86,9 @@ public class IdentifyMotionManager {
          * Threads are available in the thread pool, the Runnable waits in the queue.
          */
         sInstance.identifyThreadPool.execute(identifyTask.getIdentifyMotionRunnable());
+
         if(DEBUG_IDENTIFY)
             Log.d("THREAD_POOL", sInstance.identifyThreadPool.getActiveCount() + " threads is working...");
-        return identifyTask;
     }
 
 }
