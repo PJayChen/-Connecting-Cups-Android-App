@@ -43,7 +43,7 @@ Changed bt_not_enabled_leaving
 --> 
 
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_name">PIC32 Bluetooth Starter Kit</string>
+    <string name="app_name">Happiness Cups</string>
     
     <!--  BluetoothActivity -->
     <string name="send">Send</string>
@@ -70,5 +70,5 @@ Changed bt_not_enabled_leaving
     <string name="pair_connect">Pair and Connect a device</string>
     <string name="socket_connect">Connect a user</string>
     <string name="about">About</string>
-    <string name="app_header">Bluetooth Starter Kit</string>
+    <string name="app_header">Happiness Cups</string>
 </resources>

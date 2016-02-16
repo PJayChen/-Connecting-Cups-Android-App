@@ -295,10 +295,10 @@ TextFragment.OnTextLogRequestListener
 //                mTabHost.newTabSpec("color").setIndicator("Color"),
 //                ColorFragment.class, null);
         mTabHost.addTab(
-                mTabHost.newTabSpec("temperature").setIndicator("Temperature"),
+                mTabHost.newTabSpec("samplingRate").setIndicator("SamplingRate"),
                 TemperatureFragment.class, null);
         mTabHost.addTab(
-                mTabHost.newTabSpec("text").setIndicator("Text"),
+                mTabHost.newTabSpec("debug").setIndicator("Debug"),
                 TextFragment.class, null);
         mTabHost.setOnTabChangedListener(this);
 
