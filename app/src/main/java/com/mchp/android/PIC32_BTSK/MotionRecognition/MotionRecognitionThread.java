@@ -564,7 +564,24 @@ public class MotionRecognitionThread extends Thread {
     }
 
     public void updateStates(String msg) {
-        mHandler.obtainMessage(PIC32_BTSK.MESSAGE_MOTION_RECOG_STATE, -1, -1, msg)
+
+        String updateMsg;
+
+        if (msg.equals("shakeV")) {
+            updateMsg = new String("Vertical shaking");
+        } else if (msg.equals("shakeH")) {
+            updateMsg = new String("Horizontal shaking");
+        } else if (msg.equals("drinking")) {
+            updateMsg = new String("Drinking");
+        }  else if (msg.equals("swaying")) {
+            updateMsg = new String("Swaying");
+        }  else if (msg.equals("toasting")) {
+            updateMsg = new String("Toasting");
+        } else {
+            updateMsg = msg;
+        }
+
+        mHandler.obtainMessage(PIC32_BTSK.MESSAGE_MOTION_RECOG_STATE, -1, -1, updateMsg)
                 .sendToTarget();
     }
 
