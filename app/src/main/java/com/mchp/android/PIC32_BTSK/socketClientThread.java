@@ -37,6 +37,28 @@ public class socketClientThread extends Thread {
 
     private Handler mHandler;
 
+    public void updateUI(String msg) {
+
+        String updateMsg;
+
+        if (msg.equals("0")) {
+            updateMsg = new String("Vertical shaking");
+        } else if (msg.equals("1")) {
+            updateMsg = new String("Horizontal shaking");
+        } else if (msg.equals("2")) {
+            updateMsg = new String("Drinking");
+        }  else if (msg.equals("3")) {
+            updateMsg = new String("Swaying");
+        }  else if (msg.equals("4")) {
+            updateMsg = new String("Toasting");
+        } else {
+            updateMsg = new String("Nothing");
+        }
+
+        mHandler.obtainMessage(PIC32_BTSK.MESSAGE_REMOTE_ONE_MOTION, -1, -1, updateMsg)
+                .sendToTarget();
+    }
+
     public socketClientThread(String userID, BlockingQueue<String> dataQueue, Handler mHandler, BlockingQueue<String> sendDataBTQueue) {
         userIDstr += userID;
         this.dataQueue = dataQueue;
@@ -72,6 +94,8 @@ public class socketClientThread extends Thread {
             } else if (msgArray[2].equals("116")) {
                 //DATA STRING is motion recognition result
                 sendMessageByBluetooth(msgArray[2] + "," + msgArray[3]);
+                // update the remote guy's motion on UI
+                updateUI(msgArray[3]);
             }
         }
     }

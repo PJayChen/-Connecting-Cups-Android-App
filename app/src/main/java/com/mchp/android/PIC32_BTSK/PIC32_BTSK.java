@@ -150,6 +150,8 @@ TextFragment.OnTextLogRequestListener
     // Message types sent from the MotionRecognitionThread Handler
     public static final int MESSAGE_MOTION_RECOG_STATE = 6;
 
+    public static final int MESSAGE_REMOTE_ONE_MOTION = 7;
+
     // Key names received from the BluetoothService Handler
     public static final String DEVICE_NAME = "device_name";
     public static final String DEVICE_ADDR = "device_addr";
@@ -556,6 +558,11 @@ TextFragment.OnTextLogRequestListener
                     motionRecognitionFrag.updateIdentifiedMotionText(motionStates);
                 } catch (NullPointerException e) {}
 
+                break;
+            case MESSAGE_REMOTE_ONE_MOTION:
+                try {
+                    motionRecognitionFrag.updateRemoteGuyMotionText((String) msg.obj);
+                } catch (NullPointerException e) {}
                 break;
             }
         }

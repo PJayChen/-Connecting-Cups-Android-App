@@ -17,7 +17,10 @@ public class MotionRecognitionFragment extends Fragment {
 
     // UI relative members
     private TextView identifyMotionText;
+    private TextView remoteGuyMotionText;
+
     private String lastMotionStateStr;
+    private String lastMotionStateOfRemoteGuy;
 
     @Override
     public void onAttach(Activity activity) {
@@ -37,9 +40,13 @@ public class MotionRecognitionFragment extends Fragment {
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_motion, container, false);
 
         identifyMotionText = (TextView) rootView.findViewById(R.id.textViewMotion);
+        remoteGuyMotionText = (TextView) rootView.findViewById(R.id.textViewRemoteOneMotion);
 
-        if (lastMotionStateStr == null) identifyMotionText.setText("---");
+        if (lastMotionStateStr == null) identifyMotionText.setText("Nothing");
         else updateIdentifiedMotionText(lastMotionStateStr);
+
+        if (lastMotionStateOfRemoteGuy == null) remoteGuyMotionText.setText("Nothing");
+        else updateRemoteGuyMotionText(lastMotionStateOfRemoteGuy);
 
         // Return the layout for this fragment
         return rootView;
@@ -49,5 +56,10 @@ public class MotionRecognitionFragment extends Fragment {
     public void updateIdentifiedMotionText (String motionStr) {
         identifyMotionText.setText(motionStr);
         lastMotionStateStr = new String(motionStr);
+    }
+
+    public void updateRemoteGuyMotionText (String motionStr) {
+        remoteGuyMotionText.setText(motionStr);
+        lastMotionStateOfRemoteGuy = new String(motionStr);
     }
 }
