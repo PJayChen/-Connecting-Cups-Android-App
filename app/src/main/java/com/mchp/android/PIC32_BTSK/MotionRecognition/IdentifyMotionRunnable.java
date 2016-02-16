@@ -222,7 +222,7 @@ public class IdentifyMotionRunnable implements Runnable {
     @Override
     public void run() {
         // Moves the current Thread into the background
-        android.os.Process.setThreadPriority(android.os.Process.THREAD_PRIORITY_AUDIO);
+        android.os.Process.setThreadPriority(android.os.Process.THREAD_PRIORITY_BACKGROUND);
 
         if (IdentifyMotionManager.DEBUG_IDENTIFY)
             Log.d("THREAD_POOL", "Thread " + String.valueOf(Thread.currentThread().getId()) +
