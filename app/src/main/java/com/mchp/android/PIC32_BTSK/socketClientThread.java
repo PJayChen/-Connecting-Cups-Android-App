@@ -81,11 +81,16 @@ public class socketClientThread extends Thread {
         sendDataBTQueue.offer(msgStr);
     }
 
-    private void parsingReceivedMessage(String msgStr)
+    private boolean parsingReceivedMessage(String msgStr)
     {
         if(PIC32_BTSK.D) Log.d("SOCKET", "Parsing msg: " + msgStr );
         String[] msgArray = msgStr.split(",");
-        if (msgArray[0].equals("N") && msgArray[1].equals("2")) {
+
+        if (msgArray[0].equals("E") && msgArray[1].equals("1")) {
+            // Receive error message from server
+            showMsgByToast(msgArray[2]);
+            return false;
+        } else if (msgArray[0].equals("N") && msgArray[1].equals("2")) {
             //This message is N,2,"DATA STRING" which is a valid data sequence
             if (msgArray[2].equals("777")) {
                 //DATA STRING is accelerometer values
@@ -98,6 +103,8 @@ public class socketClientThread extends Thread {
                 updateUI(msgArray[3]);
             }
         }
+
+        return true;
     }
 
     public void run() {
@@ -121,7 +128,7 @@ public class socketClientThread extends Thread {
                         output.writeUTF(userIDstr);
                         output.flush();
                         inMsg = input.readUTF();
-                        if(PIC32_BTSK.D) Log.d("SOCKET", "Recevice: " + inMsg );
+                        if(PIC32_BTSK.D) Log.d("SOCKET", "Receive: " + inMsg );
                         if (inMsg.equals("N,1,ok"))
                             cur_state = PASSING_DATA;
                         break;
@@ -134,8 +141,13 @@ public class socketClientThread extends Thread {
                         }
                         if (input.available() > 0) {
                             inMsg = input.readUTF();
-                            parsingReceivedMessage(inMsg);
-                            if(PIC32_BTSK.D) Log.d("SOCKET", "Recevice: " + inMsg );
+                            if (parsingReceivedMessage(inMsg) != true) {
+                                // error occurred, terminate the connection.
+                                cancel();
+                                output.writeUTF("trigger exception to terminate this conncetion and thread");
+                                output.flush();
+                            }
+                            if(PIC32_BTSK.D) Log.d("SOCKET", "Receive: " + inMsg );
                         }
                         Thread.sleep(10);
                         break;
