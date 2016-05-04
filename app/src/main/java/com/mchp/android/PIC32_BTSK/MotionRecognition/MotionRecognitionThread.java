@@ -7,17 +7,20 @@ import android.util.Log;
 import com.mchp.android.PIC32_BTSK.PIC32_BTSK;
 
 import server.FeatureVector;
+import svm.SVMRecognizer;
 
 import net.sf.javaml.core.DenseInstance;
 import net.sf.javaml.core.Instance;
 import net.sf.javaml.distance.fastdtw.dtw.FastDTW;
 import net.sf.javaml.distance.fastdtw.timeseries.TimeSeries;
 
+import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.LinkedList;
@@ -463,6 +466,33 @@ public class MotionRecognitionThread extends Thread {
                         }
                         updateStates("Identifying...");
 
+                        // <><><><><<>><<>><<>><<>><<>> SVM based motion recognition method <><><><><<>><<>><<>><<>><<>>
+
+                        SVMRecognizer.identifyMotionJ(motionFramesList, context);
+
+                        BufferedReader input = new BufferedReader(new InputStreamReader( context.openFileInput("testingSet.tf.predict")));
+                        String line = input.readLine();
+                        System.out.printf("[SVM] Detect: %s\n", SVMRecognizer.motionTypes[Integer.valueOf(line.charAt(0) - '0')]);
+                        input.close();
+
+                        String detectedMotion = SVMRecognizer.motionTypes[Integer.valueOf(line.charAt(0) - '0')];
+
+                        updateStates(detectedMotion);
+
+                        if (detectedMotion.equals("shakeV")) {
+                            identifyResultQueue.offer("116,0");
+                        } else if (detectedMotion.equals("shakeH")) {
+                            identifyResultQueue.offer("116,1");
+                        } else if (detectedMotion.equals("drinking")) {
+                            identifyResultQueue.offer("116,2");
+                        }  else if (detectedMotion.equals("swaying")) {
+                            identifyResultQueue.offer("116,3");
+                        }  else if (detectedMotion.equals("toasting")) {
+                            identifyResultQueue.offer("116,4");
+                        }
+
+                        // <><><><><<>><<>><<>><<>><<>> DTW based motion recognition method <><><><><<>><<>><<>><<>><<>>
+/*
                         // a min-Heap contain similarity of all templates.
                         // top of the Heap is the most similar one of templates.
                         PriorityQueue<SimilarTemplate> similarityQueue = new PriorityQueue<SimilarTemplate>();
@@ -539,7 +569,8 @@ public class MotionRecognitionThread extends Thread {
                         }
 
                         similarityQueue = null;
-
+*/
+                        // <><><><><<>><<>><<>><<>><<>> DTW based motion recognition method <><><><><<>><<>><<>><<>><<>>
                         state = MOTION_DETECTION;
                         break;
                 }
