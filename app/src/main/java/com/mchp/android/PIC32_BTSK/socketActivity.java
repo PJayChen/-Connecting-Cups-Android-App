@@ -38,7 +38,7 @@ public class socketActivity extends Activity {
                     setResult(Activity.RESULT_OK, intent);
                     finish();
                 } else {
-                    Toast.makeText(getApplicationContext(), "Please give me a userID!!",
+                    Toast.makeText(getApplicationContext(), "Please give me a pairing ID!!",
                             Toast.LENGTH_SHORT).show();
                 }
 

@@ -68,7 +68,7 @@ Changed bt_not_enabled_leaving
     <string name="discoverable">Make discoverable</string>
 -->    
     <string name="pair_connect">Pair and Connect a device</string>
-    <string name="socket_connect">Connect a user</string>
+    <string name="socket_connect">Pair with remote cup</string>
     <string name="about">About</string>
     <string name="app_header">Happiness Cups</string>
 </resources>
